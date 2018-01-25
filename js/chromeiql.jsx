@@ -64,18 +64,11 @@ function createHeaders(headers) {
   return retHeaders;
 }
 
-const headers2String = (headers) => {
-  if (headers) {
-    let headerStr = '';
-    for(let header of headers.entries()) {
-      headerStr += `${header[0]}:${header[1]};`
-    }
-    return headerStr;
-  }
-}
-
 const string2Header = (str) => {
   if (str && typeof str === 'string') {
+    try {
+      return new Headers(JSON.parse(str));
+    } catch (_) {}
     let headers = str.split(';').filter(h => h !== '').reduce((ph, ch, ci) => {
       const values = ch.split(':');
       ph.append(values[0], values[1]);
@@ -183,8 +176,7 @@ class ChromeiQL extends React.Component {
     const newHeaders = chromeiqlHeaders;
     const setState = this.setState.bind(this);
     const currState = this.state;
-    console.log('setHeaders state', currState);
-    console.log('setHeaders headers', newHeaders);
+
     chrome.storage.local.set(
       { "chromeiqlHeaders": newHeaders },
       () => {
