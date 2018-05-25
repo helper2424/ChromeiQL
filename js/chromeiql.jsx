@@ -52,6 +52,10 @@ function updateURL() {
 // Defines a GraphQL fetcher using the fetch API.
 function graphQLFetcher(endpoint) {
   return function(graphQLParams) {
+    if (graphQLParams.query.indexOf('query IntrospectionQuery') > -1) {
+      graphQLParams.operationName = 'IntrospectionQuery'
+    }
+
     return fetch(endpoint, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
