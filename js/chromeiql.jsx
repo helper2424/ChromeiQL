@@ -81,6 +81,10 @@ const string2Header = (str) => {
 // Defines a GraphQL fetcher using the fetch API.
 function graphQLFetcher(endpoint, headers = null) {
   return function(graphQLParams) {
+    if (graphQLParams.query.indexOf('query IntrospectionQuery') > -1) {
+      graphQLParams.operationName = 'IntrospectionQuery'
+    }
+
     return fetch(endpoint, {
       method: 'post',
       headers: headers ? createHeaders(headers) : { 'Content-Type': 'application/json' },
