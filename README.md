@@ -15,7 +15,8 @@ Clone repository:
 
 Build last version of the extenstion:
 ```
-yarn installl
+cd ChromeiQL
+yarn install
 webpack
 ```
 
